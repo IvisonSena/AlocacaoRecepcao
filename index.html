@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <title>Alocação de Guichês</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=10">
+  <link rel="stylesheet" href="timeline.css?v=11">
+  <link rel="stylesheet" href="theme.css?v=7">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">AR</span>
+        <div><strong>Alocação</strong><small>Recepção</small></div>
+      </div>
+
+      <div class="month-nav">
+        <button id="prevMonth" class="icon-btn" aria-label="Mês anterior">‹</button>
+        <strong id="monthLabel"></strong>
+        <button id="nextMonth" class="icon-btn" aria-label="Próximo mês">›</button>
+      </div>
+      <div class="weekdays" aria-hidden="true"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+      <div id="calendar" class="calendar" aria-label="Calendário"></div>
+
+      <div class="sidebar-footer">
+        <p><span class="status-dot"></span> Dados locais ativos</p>
+        <button id="openData" class="sidebar-action">Configurar planilha</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">ESCALA OPERACIONAL</p>
+          <h1 id="dateTitle"></h1>
+          <p id="weekdayTitle" class="subtitle"></p>
+        </div>
+        <div class="top-actions">
+          <button id="todayBtn" class="btn btn-muted">Hoje</button>
+          <button id="refreshBtn" class="btn btn-muted">Atualizar</button>
+        </div>
+      </header>
+
+      <section class="filters" aria-label="Filtros de período">
+        <button class="filter active" data-period="Todos">Todos</button>
+        <button class="filter" data-period="Manhã">Manhã</button>
+        <button class="filter" data-period="Tarde">Tarde</button>
+      </section>
+
+      <section class="dashboard-stack">
+        <div class="panel timeline-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">PROGRAMAÇÃO GERAL</p><h2>Cursos de hoje e próximos 4 dias</h2></div>
+            <div class="timeline-actions"><span class="timeline-note">Visível para toda a equipe</span></div>
+          </div>
+          <div id="timeline" class="timeline"></div>
+        </div>
+
+        <div class="content-grid">
+        <div class="panel schedule-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">DISTRIBUIÇÃO</p><h2>Guichês do dia</h2></div>
+            <div class="legend"><span><i class="morning"></i>Manhã</span><span><i class="afternoon"></i>Tarde</span></div>
+          </div>
+          <div id="schedule" class="schedule"></div>
+        </div>
+
+        <aside class="panel summary-panel">
+          <div class="panel-heading"><div><p class="eyebrow">VISÃO RÁPIDA</p><h2>Equipe do dia</h2></div></div>
+          <div id="teamList" class="team-list"></div>
+          <div class="attention-box">
+            <strong>Pendências</strong>
+            <p id="attentionText">Nenhuma alocação cadastrada para esta data.</p>
+          </div>
+        </aside>
+        </div>
+
+        <div class="panel contacts-panel">
+          <div class="panel-heading contacts-heading">
+            <div><p class="eyebrow">AGENDA</p><h2>Contatos úteis</h2></div>
+            <div class="contacts-heading-actions">
+              <div class="view-switch" role="group" aria-label="Modo de visualização dos contatos">
+                <button type="button" class="view-option active" data-contacts-view="cards" aria-pressed="true">Cartões</button>
+                <button type="button" class="view-option" data-contacts-view="list" aria-pressed="false">Lista</button>
+              </div>
+              <span class="timeline-note">Atualizado pela planilha</span>
+            </div>
+          </div>
+          <div id="contactsList" class="contacts-list"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="dataDialog">
+    <form id="dataForm" method="dialog">
+      <div class="dialog-heading"><div><p class="eyebrow">FONTE DE DADOS</p><h2>Conectar Google Sheets</h2></div><button type="button" class="dialog-close" data-close>×</button></div>
+      <p class="helper">Informe os links publicados das abas <strong>Alocações</strong>, <strong>Cursos</strong>, <strong>Folgas</strong> e <strong>Contatos</strong>.</p>
+      <label class="field"><span>URL CSV da aba Alocações</span><input id="sheetUrl" type="url" placeholder="https://docs.google.com/spreadsheets/d/.../export?format=csv&gid=..."></label>
+      <label class="field"><span>URL CSV da aba Cursos</span><input id="coursesSheetUrl" type="url" placeholder="Publique também a aba Cursos como CSV e cole o link aqui"></label>
+      <label class="field"><span>URL publicada da aba Folgas</span><input id="daysOffSheetUrl" type="url" placeholder="Cole o link publicado da aba Folgas"></label>
+      <label class="field"><span>URL CSV da aba Contatos</span><input id="contactsSheetUrl" type="url" placeholder="Cole o link CSV publicado da aba Contatos"></label>
+      <p id="dataMessage" class="data-message"></p>
+      <div class="dialog-actions"><button type="button" id="clearData" class="btn btn-danger">Desconectar</button><button type="submit" class="btn btn-primary">Conectar e carregar</button></div>
+    </form>
+  </dialog>
+
+  <script src="app.js?v=25"></script>
+</body>
+</html>

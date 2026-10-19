@@ -1,0 +1,11 @@
+outputs/
+node_modules/
+.chrome-test*/
+.edge-test*/
+*.log
+*.xlsx
+*.inspect.ndjson
+test-dashboard.mjs
+build-workbook.mjs
+server.mjs
+Abrir Painel.bat
