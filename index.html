@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=10">
+  <link rel="stylesheet" href="styles.css?v=11">
   <link rel="stylesheet" href="timeline.css?v=11">
   <link rel="stylesheet" href="theme.css?v=7">
 </head>
@@ -54,12 +54,22 @@
       </section>
 
       <section class="dashboard-stack">
+        <div class="program-grid">
         <div class="panel timeline-panel">
           <div class="panel-heading">
             <div><p class="eyebrow">PROGRAMAÇÃO GERAL</p><h2>Cursos de hoje e próximos 4 dias</h2></div>
             <div class="timeline-actions"><span class="timeline-note">Visível para toda a equipe</span></div>
           </div>
           <div id="timeline" class="timeline"></div>
+        </div>
+
+        <div class="panel practice-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">PROGRAMAÇÃO PRÁTICA</p><h2>Escala de prática — Recepção</h2></div>
+            <span class="practice-date" id="practiceDate"></span>
+          </div>
+          <div id="practiceSchedule" class="practice-schedule" aria-live="polite"></div>
+        </div>
         </div>
 
         <div class="content-grid">
@@ -101,9 +111,10 @@
   <dialog id="dataDialog">
     <form id="dataForm" method="dialog">
       <div class="dialog-heading"><div><p class="eyebrow">FONTE DE DADOS</p><h2>Conectar Google Sheets</h2></div><button type="button" class="dialog-close" data-close>×</button></div>
-      <p class="helper">Informe os links publicados das abas <strong>Alocações</strong>, <strong>Cursos</strong>, <strong>Folgas</strong> e <strong>Contatos</strong>.</p>
+      <p class="helper">Informe os links publicados das abas <strong>Alocações</strong>, <strong>Cursos</strong>, <strong>Práticas</strong>, <strong>Folgas</strong> e <strong>Contatos</strong>.</p>
       <label class="field"><span>URL CSV da aba Alocações</span><input id="sheetUrl" type="url" placeholder="https://docs.google.com/spreadsheets/d/.../export?format=csv&gid=..."></label>
       <label class="field"><span>URL CSV da aba Cursos</span><input id="coursesSheetUrl" type="url" placeholder="Publique também a aba Cursos como CSV e cole o link aqui"></label>
+      <label class="field"><span>URL CSV da aba Práticas</span><input id="practicesSheetUrl" type="url" placeholder="Publique também a aba Práticas como CSV e cole o link aqui"></label>
       <label class="field"><span>URL publicada da aba Folgas</span><input id="daysOffSheetUrl" type="url" placeholder="Cole o link publicado da aba Folgas"></label>
       <label class="field"><span>URL CSV da aba Contatos</span><input id="contactsSheetUrl" type="url" placeholder="Cole o link CSV publicado da aba Contatos"></label>
       <p id="dataMessage" class="data-message"></p>
@@ -111,6 +122,6 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=25"></script>
+  <script src="app.js?v=26"></script>
 </body>
 </html>
