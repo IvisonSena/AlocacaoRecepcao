@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=16">
+  <link rel="stylesheet" href="styles.css?v=17">
   <link rel="stylesheet" href="timeline.css?v=11">
   <link rel="stylesheet" href="theme.css?v=7">
 </head>
@@ -116,7 +116,7 @@
               <button type="button" class="btn btn-primary" id="printNotesCalendar">Imprimir A4</button>
             </div>
           </div>
-          <p class="notes-calendar-help">Clique em um dia para abrir a edição. Cada dia tem manhã e tarde, aceita quantas linhas precisar e permite escolher as cores do fundo e do texto. As anotações são compartilhadas pela planilha. <strong id="notesSyncStatus">Carregando…</strong></p>
+          <p class="notes-calendar-help">Clique em um dia para abrir a edição. Adicione um curso por linha e personalize individualmente o fundo, a cor e o tamanho da letra. As anotações são compartilhadas pela planilha. <strong id="notesSyncStatus">Carregando…</strong></p>
           <div class="notes-calendar-scroll">
             <div class="notes-calendar-weekdays" aria-hidden="true"><span>Domingo</span><span>Segunda</span><span>Terça</span><span>Quarta</span><span>Quinta</span><span>Sexta</span><span>Sábado</span></div>
             <div id="notesCalendarGrid" class="notes-calendar-grid" aria-label="Calendário mensal para anotações"></div>
@@ -129,7 +129,7 @@
   <dialog id="noteEditorDialog" class="note-editor-dialog">
     <form id="noteEditorForm" method="dialog">
       <div class="dialog-heading"><div><p class="eyebrow">ANOTAÇÕES DO DIA</p><h2 id="noteEditorTitle"></h2></div><button type="button" class="dialog-close" data-close aria-label="Fechar">×</button></div>
-      <p class="helper">Escreva uma informação por linha. A caixa aumenta automaticamente.</p>
+      <p class="helper">Adicione cada curso em uma linha. Cada linha pode ter cor de fundo, cor do texto e tamanho de letra diferentes.</p>
       <div id="noteEditorTurns" class="note-editor-turns"></div>
       <div class="dialog-actions"><button type="button" class="btn btn-muted" data-close>Fechar</button><button type="submit" class="btn btn-primary">Salvar na planilha</button></div>
     </form>
@@ -149,6 +149,6 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=32"></script>
+  <script src="app.js?v=33"></script>
 </body>
 </html>
