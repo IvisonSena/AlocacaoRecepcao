@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=12">
+  <link rel="stylesheet" href="styles.css?v=13">
   <link rel="stylesheet" href="timeline.css?v=11">
   <link rel="stylesheet" href="theme.css?v=7">
 </head>
@@ -104,6 +104,24 @@
           </div>
           <div id="contactsList" class="contacts-list"></div>
         </div>
+
+        <div class="panel notes-calendar-panel" id="notesCalendarPanel">
+          <div class="panel-heading notes-calendar-heading">
+            <div><p class="eyebrow">PLANEJAMENTO MENSAL</p><h2>Calendário de anotações</h2></div>
+            <div class="notes-calendar-actions">
+              <button type="button" class="notes-nav" id="notesPrevMonth" aria-label="Mês anterior">‹</button>
+              <strong id="notesMonthLabel" aria-live="polite"></strong>
+              <button type="button" class="notes-nav" id="notesNextMonth" aria-label="Próximo mês">›</button>
+              <button type="button" class="btn btn-muted" id="notesTodayBtn">Mês atual</button>
+              <button type="button" class="btn btn-primary" id="printNotesCalendar">Imprimir A4</button>
+            </div>
+          </div>
+          <p class="notes-calendar-help">Clique em qualquer dia para escrever. As anotações são salvas automaticamente neste navegador.</p>
+          <div class="notes-calendar-scroll">
+            <div class="notes-calendar-weekdays" aria-hidden="true"><span>Domingo</span><span>Segunda</span><span>Terça</span><span>Quarta</span><span>Quinta</span><span>Sexta</span><span>Sábado</span></div>
+            <div id="notesCalendarGrid" class="notes-calendar-grid" aria-label="Calendário mensal para anotações"></div>
+          </div>
+        </div>
       </section>
     </main>
   </div>
@@ -122,6 +140,6 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=27"></script>
+  <script src="app.js?v=28"></script>
 </body>
 </html>
