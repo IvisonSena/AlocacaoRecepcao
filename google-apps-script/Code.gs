@@ -1,58 +1,86 @@
-const NOTES_SHEET = 'Anotações';
+var NOTES_SHEET = 'Anotações';
 
 function doGet() {
-  const sheet = SpreadsheetApp.getActive().getSheetByName(NOTES_SHEET);
-  const notes = {};
+  var sheet = SpreadsheetApp.getActive().getSheetByName(NOTES_SHEET);
+  var notes = {};
   if (sheet && sheet.getLastRow() > 1) {
-    sheet.getRange(2, 1, sheet.getLastRow() - 1, 2).getDisplayValues().forEach(([date, note]) => {
-      const normalizedDate = normalizeDate_(date);
-      if (normalizedDate && note) notes[normalizedDate] = note;
+    var range = sheet.getRange(2, 1, sheet.getLastRow() - 1, 3);
+    var values = range.getDisplayValues();
+    var backgrounds = range.getBackgrounds();
+    var fontColors = range.getFontColors();
+    values.forEach(function(row, index) {
+      var normalizedDate = normalizeDate_(row[0]);
+      if (normalizedDate && (row[1] || row[2])) {
+        notes[normalizedDate] = {
+          morning: { text: row[1], background: backgrounds[index][1], color: fontColors[index][1] },
+          afternoon: { text: row[2], background: backgrounds[index][2], color: fontColors[index][2] }
+        };
+      }
     });
   }
-  return json_({ ok: true, notes });
+  return json_({ ok: true, notes: notes });
 }
 
 function doPost(event) {
-  const payload = JSON.parse((event && event.postData && event.postData.contents) || '{}');
-  const date = String(payload.date || '').trim();
-  const note = String(payload.note || '').trimEnd();
+  var payload = JSON.parse((event && event.postData && event.postData.contents) || '{}');
+  var date = String(payload.date || '').trim();
+  var morning = normalizeTurn_(payload.morning || (payload.note ? { text: payload.note } : {}));
+  var afternoon = normalizeTurn_(payload.afternoon || {});
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return json_({ ok: false, error: 'Data inválida' });
 
-  const lock = LockService.getDocumentLock();
+  var lock = LockService.getDocumentLock();
   lock.waitLock(10000);
   try {
-    const sheet = getNotesSheet_();
-    const lastRow = sheet.getLastRow();
-    const dates = lastRow > 1 ? sheet.getRange(2, 1, lastRow - 1, 1).getDisplayValues().flat().map(normalizeDate_) : [];
-    const index = dates.indexOf(date);
-    const row = index >= 0 ? index + 2 : lastRow + 1;
-    if (!note && index >= 0) {
+    var sheet = getNotesSheet_();
+    var lastRow = sheet.getLastRow();
+    var dates = lastRow > 1 ? sheet.getRange(2, 1, lastRow - 1, 1).getDisplayValues().map(function(row) { return normalizeDate_(row[0]); }) : [];
+    var index = dates.indexOf(date);
+    var row = index >= 0 ? index + 2 : lastRow + 1;
+    if (!morning.text && !afternoon.text && index >= 0) {
       sheet.deleteRow(row);
-    } else if (note) {
-      sheet.getRange(row, 1).setNumberFormat('@').setValue(date);
-      sheet.getRange(row, 2).setValue(note).setWrap(true);
+    } else if (morning.text || afternoon.text) {
+      var parts = date.split('-').map(Number);
+      sheet.getRange(row, 1).setValue(new Date(parts[0], parts[1] - 1, parts[2])).setNumberFormat('dd/MM/yyyy');
+      var turns = sheet.getRange(row, 2, 1, 2);
+      turns.setValues([[morning.text, afternoon.text]]).setWrap(true).setVerticalAlignment('top');
+      turns.setBackgrounds([[morning.background, afternoon.background]]);
+      turns.setFontColors([[morning.color, afternoon.color]]);
+      sheet.autoResizeRows(row, 1);
     }
-    return json_({ ok: true, date, note });
+    return json_({ ok: true, date: date, morning: morning, afternoon: afternoon });
   } finally {
     lock.releaseLock();
   }
 }
 
 function getNotesSheet_() {
-  const spreadsheet = SpreadsheetApp.getActive();
-  let sheet = spreadsheet.getSheetByName(NOTES_SHEET);
+  var spreadsheet = SpreadsheetApp.getActive();
+  var sheet = spreadsheet.getSheetByName(NOTES_SHEET);
   if (!sheet) {
     sheet = spreadsheet.insertSheet(NOTES_SHEET);
-    sheet.getRange('A1:B1').setValues([['Data', 'Anotação']]);
   }
+  sheet.getRange('A1:C1').setValues([['Data', 'Manhã', 'Tarde']]);
   return sheet;
 }
 
+function normalizeTurn_(value) {
+  return {
+    text: String((value && value.text) || '').replace(/\s+$/, ''),
+    background: validColor_(value && value.background, '#ffffff'),
+    color: validColor_(value && value.color, '#012e73')
+  };
+}
+
+function validColor_(value, fallback) {
+  var color = String(value || '').trim().toLowerCase();
+  return /^#[0-9a-f]{6}$/.test(color) ? color : fallback;
+}
+
 function normalizeDate_(value) {
-  const text = String(value || '').trim();
+  var text = String(value || '').trim();
   if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
-  const match = text.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-  return match ? `${match[3]}-${match[2].padStart(2, '0')}-${match[1].padStart(2, '0')}` : '';
+  var match = text.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  return match ? match[3] + '-' + ('0' + match[2]).slice(-2) + '-' + ('0' + match[1]).slice(-2) : '';
 }
 
 function json_(value) {
