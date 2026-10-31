@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=17">
+  <link rel="stylesheet" href="styles.css?v=18">
   <link rel="stylesheet" href="timeline.css?v=11">
   <link rel="stylesheet" href="theme.css?v=7">
 </head>
@@ -47,14 +47,20 @@
         </div>
       </header>
 
-      <section class="filters" aria-label="Filtros de período">
+      <nav class="page-tabs" aria-label="Seções do painel">
+        <button type="button" class="page-tab active" data-page="dashboard" aria-selected="true">Painel</button>
+        <button type="button" class="page-tab" data-page="allocation" aria-selected="false">Alocação</button>
+        <button type="button" class="page-tab" data-page="contacts" aria-selected="false">Contatos</button>
+      </nav>
+
+      <section class="filters" data-page-context="dashboard allocation" aria-label="Filtros de período">
         <button class="filter active" data-period="Todos">Todos</button>
         <button class="filter" data-period="Manhã">Manhã</button>
         <button class="filter" data-period="Tarde">Tarde</button>
       </section>
 
       <section class="dashboard-stack">
-        <div class="program-grid">
+        <div class="program-grid" data-page-view="dashboard">
         <div class="panel timeline-panel">
           <div class="panel-heading">
             <div><p class="eyebrow">PROGRAMAÇÃO GERAL</p><h2>Cursos de hoje e próximos 4 dias</h2></div>
@@ -72,7 +78,7 @@
         </div>
         </div>
 
-        <div class="content-grid">
+        <div class="content-grid" data-page-view="allocation" hidden>
         <div class="panel schedule-panel">
           <div class="panel-heading">
             <div><p class="eyebrow">DISTRIBUIÇÃO</p><h2>Guichês do dia</h2></div>
@@ -91,7 +97,7 @@
         </aside>
         </div>
 
-        <div class="panel contacts-panel">
+        <div class="panel contacts-panel" data-page-view="contacts" hidden>
           <div class="panel-heading contacts-heading">
             <div><p class="eyebrow">AGENDA</p><h2>Contatos úteis</h2></div>
             <div class="contacts-heading-actions">
@@ -105,7 +111,7 @@
           <div id="contactsList" class="contacts-list"></div>
         </div>
 
-        <div class="panel notes-calendar-panel" id="notesCalendarPanel">
+        <div class="panel notes-calendar-panel" id="notesCalendarPanel" data-page-view="dashboard">
           <div class="panel-heading notes-calendar-heading">
             <div><p class="eyebrow">PLANEJAMENTO MENSAL</p><h2>Calendário de anotações</h2></div>
             <div class="notes-calendar-actions">
@@ -149,6 +155,6 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=33"></script>
+  <script src="app.js?v=34"></script>
 </body>
 </html>
